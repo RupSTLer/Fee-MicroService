@@ -8,6 +8,7 @@ import com.stl.rupam.SchoolWebApp.fee.entity.Fee;
 
 public interface FeeRepo extends JpaRepository<Fee, Long> {
 	
-	Optional<Fee> findByStudentId(Long studentId);
+//	Optional<Fee> findByStudentId(Long id);
+	Optional<Fee> findByStudentId(String studentId);
 
 }

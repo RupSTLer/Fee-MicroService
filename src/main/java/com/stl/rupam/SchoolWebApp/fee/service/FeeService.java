@@ -33,8 +33,19 @@ public class FeeService {
 		return feeRepo.saveAndFlush(fee);
 	}
 	
-	public Fee getFeesDetails(Long studentId) {
-		return feeRepo.findByStudentId(studentId).orElse(null);
+	public Fee getFeesDetails(String id) {
+//		return feeRepo.findByStudentId(id).orElse(null);
+		List<Fee> fees = feeRepo.findAll();
+		Fee fee = null;
+		
+		for(Fee fee2: fees)
+		{
+			if(fee2.getStudentId() == id)
+			{
+				fee = fee2;
+			}
+		}
+		return fee;
 	}
 	
 	public List<Fee> listFees()

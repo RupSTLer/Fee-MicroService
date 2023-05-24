@@ -38,7 +38,7 @@ public class FeeController {
 	}
 	
 	@GetMapping("/getFeesDetails/{id}")
-	public Fee getFeesDetails(@PathVariable Long id) {
+	public Fee getFeesDetails(@PathVariable String id) {
 		return feesService.getFeesDetails(id);
 	}
 	
