@@ -19,14 +19,5 @@ pipeline {
                 }
             }
         }
-        stage('deploy') {
-            steps {
-                script {
-                    echo "Deploying the application..."
-                    bat 'java -jar target/fee-0.0.1-SNAPSHOT.jar'
-
-                }
-            }
-        }
     }
 }

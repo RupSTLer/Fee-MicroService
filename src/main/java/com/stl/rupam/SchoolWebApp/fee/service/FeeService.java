@@ -23,7 +23,16 @@ public class FeeService {
 	    String timestamp = datetime.format(format);  
 		fee.setTime(timestamp); 
 		
-		return feeRepo.save(fee);
+		try 
+		{
+			feeRepo.findByStudentId(fee.getStudentId()).get();
+		}
+		catch(Exception ex)
+		{
+			return feeRepo.save(fee);
+		}
+		
+		return null;
 	}
 	
 	public Fee updateFees(Fee fee) {
