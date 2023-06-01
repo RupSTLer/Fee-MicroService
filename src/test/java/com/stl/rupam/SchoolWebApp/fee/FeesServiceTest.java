@@ -20,8 +20,8 @@ import com.stl.rupam.SchoolWebApp.fee.repo.FeeRepo;
 import com.stl.rupam.SchoolWebApp.fee.service.FeeService;
 
 
-@SpringBootTest(classes = { FeesCRUDTest.class })
-public class FeesCRUDTest {
+@SpringBootTest(classes = { FeesServiceTest.class })
+public class FeesServiceTest {
 
 	@Mock
 	FeeRepo feeRepo;
@@ -35,12 +35,11 @@ public class FeesCRUDTest {
 	@Rollback(value = false)
 	public void payFeeTest() {
 		
-		Fee fee = new Fee(3L, "SMS005", "Ritam", 5890L, "Cheque", "20-11-2023 02:14");
+		Fee fee = new Fee(3L, "SMS001", "Ritam", 5890L, "Cheque", "Monthly", "20-11-2023 02:14");
 				
-		when(feeRepo.save(fee)).thenReturn(fee);
-		assertEquals(fee, feeService.payFees(fee));
+//		when(feeRepo.save(fee)).thenReturn(fee);
+		assertEquals("Fees paid successfully..", feeService.payFees(fee));
 	
-//		assertNotNull(payFee);
 	}
 
 	// JUnit test for getFee
@@ -51,8 +50,8 @@ public class FeesCRUDTest {
 
 		List<Fee> fees = new ArrayList<Fee>();
 
-		fees.add(new Fee(3L, "SMS005", "Ritam", 5890L, "Cheque", "20-11-2023 02:14"));
-		fees.add(new Fee(4L, "SMS006", "Ritam", 5899L, "Cash", "20-11-2023 02:14"));
+		fees.add(new Fee(3L, "SMS005", "Ritam", 5890L, "Monthly", "Cheque", "20-11-2023 02:14"));
+		fees.add(new Fee(4L, "SMS006", "Rupam", 5899L, "Yearly", "Cash", "20-11-2023 02:14"));
 		
 		String ID = "SMS005";
 		
@@ -71,10 +70,8 @@ public class FeesCRUDTest {
 
 		List<Fee> fees = new ArrayList<Fee>();
 
-		fees.add(new Fee(3L, "SMS005", "Ritam", 5890L, "Cheque", "20-11-2023 02:14"));
-		fees.add(new Fee(4L, "SMS006", "Ritam", 5899L, "Cash", "20-11-2023 02:14"));
-
-//		List<Fee> fees = Stream.of(new Fee(3L, "SMS005", "Ritam", 5890L, "Cheque", "20-11-2023 02:14"), new Fee(4L, "SMS006", "Ritam", 5899L, "Cash", "20-11-2023 02:14")).collect(Collectors.toList());
+		fees.add(new Fee(3L, "SMS005", "Ritam", 5890L, "Monthly", "Cheque", "20-11-2023 02:14"));
+		fees.add(new Fee(4L, "SMS006", "Rupam", 5899L, "Yearly", "Cash", "20-11-2023 02:14"));
 
 		when(feeRepo.findAll()).thenReturn(fees); // mocking
 
@@ -87,8 +84,8 @@ public class FeesCRUDTest {
 	@Order(4)
 	@Rollback(value = false)
 	public void updateFeeTest() {
-		Fee fees = Fee.builder().id(2L).studentId("SMS005").studentName("Rupam").amount(5760L).paymentType("Cash")
-				.time("20-11-2023 02:14").build();
+
+		Fee fees = new Fee(3L, "SMS005", "Ritam", 5890L, "Cheque", "Monthly", "20-11-2023 02:14");
 
 		fees.setStudentId("SMS002");
 

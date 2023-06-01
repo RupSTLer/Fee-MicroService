@@ -12,10 +12,11 @@ pipeline {
                 }
             }
         }
-        stage('test') {
+        stage('deploy') {
             steps {
                 script {
-                    echo "Testing the application..."
+                    echo "Deploying the application..."
+                    bat "mvn spring-boot:run"
                 }
             }
         }

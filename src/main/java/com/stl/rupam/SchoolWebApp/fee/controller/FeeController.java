@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,19 +28,19 @@ public class FeeController {
 	private FeeService feesService;
 	
 	@PostMapping("/payFees")
-	public Fee payFees(@Valid @RequestBody Fee fee)
+	public String payFees(@Valid @RequestBody Fee fee)
 	{
 		return feesService.payFees(fee);
 	}
 	
-	@PostMapping("/updateFee")
-	public Fee updateFees(@Valid @RequestBody Fee fee) {
+	@PutMapping("/updateFee")
+	public String updateFees(@Valid @RequestBody Fee fee) {
 		return feesService.updateFees(fee);
 	}
 	
-	@GetMapping("/getFeesDetails/{id}")
-	public Fee getFeesDetails(@PathVariable String id) {
-		return feesService.getFeesDetails(id);
+	@GetMapping("/getFeesByStudentId/{studentId}")
+	public List<Fee> getFeesByStudentId(@PathVariable String studentId) {
+		return feesService.getFeesByStudentId(studentId);
 	}
 	
 	@GetMapping("/listFees")

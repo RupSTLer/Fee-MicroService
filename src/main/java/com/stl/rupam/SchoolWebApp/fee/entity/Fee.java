@@ -44,7 +44,10 @@ public class Fee {
 	@DecimalMax(value = "100000", inclusive = false)
 	private Long amount;
 	
-	@NotEmpty(message = "add payment type")
+	@NotEmpty(message = "Please add fee type")
+	private String feeType;
+	
+	@NotEmpty(message = "Please add payment type")
 	private String paymentType;
 	
 	private String time;

@@ -8,64 +8,96 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.stl.rupam.SchoolWebApp.fee.entity.Fee;
+import com.stl.rupam.SchoolWebApp.fee.entity.Student;
 import com.stl.rupam.SchoolWebApp.fee.repo.FeeRepo;
 
 @Service
 public class FeeService {
-	
+
 	@Autowired
 	private FeeRepo feeRepo;
-	
-	public Fee payFees(Fee fee)
-	{
-		LocalDateTime datetime = LocalDateTime.now();  
-	    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");  
-	    String timestamp = datetime.format(format);  
-		fee.setTime(timestamp); 
-		
-		try 
-		{
-			feeRepo.findByStudentId(fee.getStudentId()).get();
+
+	public String payFees(Fee fee) {
+		LocalDateTime datetime = LocalDateTime.now();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+		String timestamp = datetime.format(format);
+		fee.setTime(timestamp);
+
+		String s = validateFee(fee);
+
+		if (s == null) {
+			feeRepo.save(fee);
+			return "Fees paid successfully..";
+		} else {
+			return s;
 		}
-		catch(Exception ex)
-		{
-			return feeRepo.save(fee);
-		}
+
+	}
+
+	private String validateFee(Fee fee) {
 		
+		try {
+
+			List<Fee> existingPaidFees = feeRepo.findByStudentIdAndFeeType(fee.getStudentId(), fee.getFeeType());
+
+			if (!existingPaidFees.isEmpty()) {
+				throw new IllegalArgumentException("Fees already paid");
+			}
+
+			Student student = StudentRest.getStudentByStudentId(fee.getStudentId());
+
+			if (student == null) {
+				throw new IllegalArgumentException("Invalid student");
+			}
+		} catch (Exception ex) {
+			return ex.getMessage();
+		}
+
 		return null;
 	}
-	
-	public Fee updateFees(Fee fee) {
+
+	public String updateFees(Fee fee) {
 //		Fee x  = getFeesDetails(fee.getStudentId());
 //		if(x == null) return repo.save(fee);
-	
-		return feeRepo.saveAndFlush(fee);
+
+		LocalDateTime datetime = LocalDateTime.now();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+		String timestamp = datetime.format(format);
+		fee.setTime(timestamp);
+
+		String s = validateFee(fee);
+
+		if (s == null) {
+			feeRepo.saveAndFlush(fee);
+			return "Fees updated successfully..";
+		} else {
+			return s;
+		}
 	}
-	
+
 	public Fee getFeesDetails(String id) {
 //		return feeRepo.findByStudentId(id).orElse(null);
 		List<Fee> fees = feeRepo.findAll();
 		Fee fee = null;
-		
-		for(Fee fee2: fees)
-		{
-			if(fee2.getStudentId() == id)
-			{
+
+		for (Fee fee2 : fees) {
+			if (fee2.getStudentId() == id) {
 				fee = fee2;
 			}
 		}
 		return fee;
 	}
-	
-	public List<Fee> listFees()
-	{
+
+	public List<Fee> getFeesByStudentId(String studentId) {
+		return feeRepo.findByStudentId(studentId);
+	}
+
+	public List<Fee> listFees() {
 		return feeRepo.findAll();
 	}
-	
+
 	public Long countPaidFees() {
 		return feeRepo.count();
 	}
-	
-	
-}
 
+}
