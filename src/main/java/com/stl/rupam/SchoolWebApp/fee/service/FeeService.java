@@ -57,8 +57,6 @@ public class FeeService {
 	}
 
 	public String updateFees(Fee fee) {
-//		Fee x  = getFeesDetails(fee.getStudentId());
-//		if(x == null) return repo.save(fee);
 
 		LocalDateTime datetime = LocalDateTime.now();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
@@ -75,6 +73,18 @@ public class FeeService {
 		}
 	}
 
+	public List<Fee> getFeesByStudentId(String studentId) {
+		return feeRepo.findByStudentId(studentId);
+	}
+
+	public List<Fee> listFees() {
+		return feeRepo.findAll();
+	}
+
+	public Long countPaidFees() {
+		return feeRepo.count();
+	}
+	
 	public Fee getFeesDetails(String id) {
 //		return feeRepo.findByStudentId(id).orElse(null);
 		List<Fee> fees = feeRepo.findAll();
@@ -86,18 +96,6 @@ public class FeeService {
 			}
 		}
 		return fee;
-	}
-
-	public List<Fee> getFeesByStudentId(String studentId) {
-		return feeRepo.findByStudentId(studentId);
-	}
-
-	public List<Fee> listFees() {
-		return feeRepo.findAll();
-	}
-
-	public Long countPaidFees() {
-		return feeRepo.count();
 	}
 
 }

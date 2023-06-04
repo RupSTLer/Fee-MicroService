@@ -1,6 +1,8 @@
 package com.stl.rupam.SchoolWebApp.fee;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -35,47 +37,55 @@ public class FeesServiceTest {
 	@Rollback(value = false)
 	public void payFeeTest() {
 		
-		Fee fee = new Fee(3L, "SMS001", "Ritam", 5890L, "Cheque", "Monthly", "20-11-2023 02:14");
+		Fee mockFee = new Fee(3L, "SMS001", "Ritam", 5890L, "Cheque", "Monthly", "20-11-2023 02:14");
 				
-//		when(feeRepo.save(fee)).thenReturn(fee);
-		assertEquals("Fees paid successfully..", feeService.payFees(fee));
+		when(feeRepo.save(mockFee)).thenReturn(mockFee);   //mocking
+		
+		assertEquals("Fees paid successfully..", feeService.payFees(mockFee));
+		verify(feeRepo, times(1)).save(mockFee);
 	
 	}
 
-	// JUnit test for getFee
+	// JUnit test for getFeesByStudentId
 	@Test
 	@Order(2)
 	@Rollback(value = false)
-	public void getFeesTest() {
-
-		List<Fee> fees = new ArrayList<Fee>();
-
-		fees.add(new Fee(3L, "SMS005", "Ritam", 5890L, "Monthly", "Cheque", "20-11-2023 02:14"));
-		fees.add(new Fee(4L, "SMS006", "Rupam", 5899L, "Yearly", "Cash", "20-11-2023 02:14"));
+	public void getFeesByStudentIdTest() {
 		
-		String ID = "SMS005";
+		String studentId = "SMS002";
 		
-		when(feeRepo.findAll()).thenReturn(fees); // mocking
+//		Fee mockFee = new Fee(3L, studentId, "Ritam", 5890L, "Monthly", "Cheque", "20-11-2023 02:14");
+		List<Fee> mockFeeList = new ArrayList<Fee>();
+		mockFeeList.add(new Fee(3L, studentId, "Ritam", 5890L, "Monthly", "Cheque", "20-11-2023 02:14"));
+		mockFeeList.add(new Fee(4L, studentId, "Rupam", 5899L, "Yearly", "Cash", "20-11-2023 02:14"));
 		
-		assertEquals(ID, feeService.getFeesDetails(ID).getStudentId());
+		when(feeRepo.findByStudentId(studentId)).thenReturn(mockFeeList); // mocking
+		
+		List<Fee> mockService = feeService.getFeesByStudentId(studentId);
+		
+		assertEquals(mockFeeList, mockService);
+		verify(feeRepo, times(1)).findByStudentId(studentId);
 
 	}
 
 //	
-	// JUnit test for getFeeList
+	// JUnit test for getAllFeeList
 	@Test
 	@Order(3)
 	@Rollback(value = false)
 	public void getListOfFeesTest() {
 
-		List<Fee> fees = new ArrayList<Fee>();
+		List<Fee> mockFeeList = new ArrayList<Fee>();
 
-		fees.add(new Fee(3L, "SMS005", "Ritam", 5890L, "Monthly", "Cheque", "20-11-2023 02:14"));
-		fees.add(new Fee(4L, "SMS006", "Rupam", 5899L, "Yearly", "Cash", "20-11-2023 02:14"));
+		mockFeeList.add(new Fee(3L, "SMS005", "Ritam", 5890L, "Monthly", "Cheque", "20-11-2023 02:14"));
+		mockFeeList.add(new Fee(4L, "SMS006", "Rupam", 5899L, "Yearly", "Cash", "20-11-2023 02:14"));
 
-		when(feeRepo.findAll()).thenReturn(fees); // mocking
-
-		assertEquals(2, feeService.listFees().size());
+		when(feeRepo.findAll()).thenReturn(mockFeeList); // mocking
+		
+		List<Fee> mockService = feeService.listFees();
+		
+		assertEquals(mockFeeList, mockService);
+		verify(feeRepo, times(1)).findAll();
 
 	}
 
@@ -84,15 +94,25 @@ public class FeesServiceTest {
 	@Order(4)
 	@Rollback(value = false)
 	public void updateFeeTest() {
+		
+		Fee existingFees = new Fee(3L, "SMS001", "Ritam", 5890L, "Cheque", "Monthly", "20-11-2023 02:14");
 
-		Fee fees = new Fee(3L, "SMS005", "Ritam", 5890L, "Cheque", "Monthly", "20-11-2023 02:14");
+		existingFees.setStudentId("SMS002");
 
-		fees.setStudentId("SMS002");
+		feeService.updateFees(existingFees);
 
-		feeService.updateFees(fees);
-
-		Assertions.assertThat(fees.getStudentId()).isEqualTo("SMS002");
+		Assertions.assertThat(existingFees.getStudentId()).isEqualTo("SMS002");
 
 	}
 
 }
+
+
+//Fee updateFees = new Fee(3L, "SMS001", "Ritam Chakraborty", 5890L, "Cash", "Monthly", "20-11-2023 02:14");
+//
+//when(feeRepo.saveAndFlush(existingFees)).thenReturn(updateFees);
+//
+////String mockService = feeService.updateFees(updateFees);
+//
+//assertEquals("Fees updated successfully..", feeService.updateFees(updateFees));
+//verify(feeRepo, times(1)).saveAndFlush(existingFees);

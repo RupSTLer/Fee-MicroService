@@ -1,6 +1,5 @@
 package com.stl.rupam.SchoolWebApp.fee.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ public class StudentRest {
 	
 	public static Student getStudentByStudentId(String studentId)
 	{
-		String url = "http://localhost:9003/student/find/" + studentId;
+		String url = "http://localhost:9003/student/" + studentId;
 		ResponseEntity<Student> response = restTemplate.getForEntity(url, Student.class);
 		
 		if(response.getStatusCode() == HttpStatus.OK)
