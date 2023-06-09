@@ -2,6 +2,8 @@ package com.stl.rupam.SchoolWebApp.fee.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,11 +76,28 @@ public class FeeService {
 	}
 
 	public List<Fee> getFeesByStudentId(String studentId) {
-		return feeRepo.findByStudentId(studentId);
+		List<Fee> fees = feeRepo.findByStudentId(studentId);
+		sortFeesByTime(fees);
+		return fees;
 	}
 
 	public List<Fee> listFees() {
-		return feeRepo.findAll();
+		List<Fee> fees = feeRepo.findAll();
+		sortFeesByTime(fees);
+		return fees;
+	}
+	
+	public void sortFeesByTime(List<Fee> fees)
+	{
+		Collections.sort(fees, new Comparator<Fee>() {
+
+			@Override
+			public int compare(Fee fee1, Fee fee2) {
+				String time1 = fee1.getTime();
+				String time2 = fee2.getTime();				
+				return time2.compareTo(time1);
+			}
+		});
 	}
 
 	public Long countPaidFees() {
