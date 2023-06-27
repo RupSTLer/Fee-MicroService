@@ -1,8 +1,6 @@
 package com.stl.rupam.SchoolWebApp.fee.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -18,12 +16,9 @@ import lombok.Data;
 @Table(name = "students")
 public class Student {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
 //	@NotEmpty(message = "student id is mandetory")
 //	@Pattern(regexp = "^[SMS]{3}[0-9]{3}$", message = "please add valid ID")
+	@Id
 	private String studentId;
 	
 	@NotEmpty(message = "username is mandetory")

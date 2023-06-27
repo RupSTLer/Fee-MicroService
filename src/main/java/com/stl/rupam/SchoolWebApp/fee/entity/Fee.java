@@ -12,9 +12,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Entity
 @NoArgsConstructor
@@ -27,13 +27,19 @@ public class Fee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-//	@NotEmpty(message = "studentId is mandetory")
+	@NotEmpty(message = "studentId is mandetory")
 	@Pattern(regexp = "^[SMS]{3}[0-9]{3}$", message = "please add valid ID")
 	private String studentId;
 	
 //	@NotEmpty(message = "student name is mandetory")
-	@Pattern(regexp = "[a-zA-Z]{2}[a-zA-Z ]+", message = "please add valid name")
-	private String studentName;
+//	@Pattern(regexp = "[a-zA-Z]{2}[a-zA-Z ]+", message = "please add valid name")
+//	private String studentName;
+	
+	@NotEmpty(message = "Please add fee type")
+	private String feeType;
+	
+	@NotEmpty(message = "Please add duration")
+	private String duration;
 	
 //	@Pattern(regexp = "^[0-9]+[\\.]?[0-9]{0,2}$", message = "please add valid amount")
 //	@NotNull(message = "amount is mandetory")
@@ -42,11 +48,8 @@ public class Fee {
 	@DecimalMax(value = "100000", inclusive = false)
 	private Long amount;
 	
-	@NotEmpty(message = "Please add fee type")
-	private String feeType;
-	
-	@NotEmpty(message = "Please add payment type")
-	private String paymentType;
+//	@NotEmpty(message = "Please add payment type")
+//	private String paymentType;
 	
 	private String time;
 	

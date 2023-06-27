@@ -37,7 +37,7 @@ public class FeesServiceTest {
 	@Rollback(value = false)
 	public void payFeeTest() {
 		
-		Fee mockFee = new Fee(3L, "SMS001", "Ritam", 5890L, "Cheque", "Monthly", "20-11-2023 02:14");
+		Fee mockFee = new Fee(3L, "SMS001", "Monthly", "June", 999L, "20-11-2023 02:14");
 				
 		when(feeRepo.save(mockFee)).thenReturn(mockFee);   //mocking
 		
@@ -54,10 +54,9 @@ public class FeesServiceTest {
 		
 		String studentId = "SMS002";
 		
-//		Fee mockFee = new Fee(3L, studentId, "Ritam", 5890L, "Monthly", "Cheque", "20-11-2023 02:14");
 		List<Fee> mockFeeList = new ArrayList<Fee>();
-		mockFeeList.add(new Fee(3L, studentId, "Ritam", 5890L, "Monthly", "Cheque", "20-11-2023 02:14"));
-		mockFeeList.add(new Fee(4L, studentId, "Rupam", 5899L, "Yearly", "Cash", "20-11-2023 02:14"));
+		mockFeeList.add(new Fee(3L, studentId, "Monthly", "June", 999L, "20-11-2023 02:14"));
+		mockFeeList.add(new Fee(3L, studentId, "Monthly", "July", 999L, "20-11-2023 02:14"));
 		
 		when(feeRepo.findByStudentId(studentId)).thenReturn(mockFeeList); // mocking
 		
@@ -77,8 +76,8 @@ public class FeesServiceTest {
 
 		List<Fee> mockFeeList = new ArrayList<Fee>();
 
-		mockFeeList.add(new Fee(3L, "SMS005", "Ritam", 5890L, "Monthly", "Cheque", "20-11-2023 02:14"));
-		mockFeeList.add(new Fee(4L, "SMS006", "Rupam", 5899L, "Yearly", "Cash", "20-11-2023 02:14"));
+		mockFeeList.add(new Fee(3L, "SMS001", "Monthly", "June", 999L, "20-11-2023 02:14"));
+		mockFeeList.add(new Fee(3L, "SMS002", "Monthly", "July", 999L, "20-11-2023 02:14"));
 
 		when(feeRepo.findAll()).thenReturn(mockFeeList); // mocking
 		
@@ -95,7 +94,7 @@ public class FeesServiceTest {
 	@Rollback(value = false)
 	public void updateFeeTest() {
 		
-		Fee existingFees = new Fee(3L, "SMS001", "Ritam", 5890L, "Cheque", "Monthly", "20-11-2023 02:14");
+		Fee existingFees = new Fee(3L, "SMS002", "Monthly", "July", 999L, "20-11-2023 02:14");
 
 		existingFees.setStudentId("SMS002");
 
