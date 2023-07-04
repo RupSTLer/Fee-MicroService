@@ -37,7 +37,7 @@ public class FeesServiceTest {
 	@Rollback(value = false)
 	public void payFeeTest() {
 		
-		Fee mockFee = new Fee(3L, "SMS001", "Monthly", "June", 999L, "20-11-2023 02:14");
+		Fee mockFee = new Fee(3L, "SMS002", "Monthly", "June", 999L, "20-11-2023 02:14");
 				
 		when(feeRepo.save(mockFee)).thenReturn(mockFee);   //mocking
 		

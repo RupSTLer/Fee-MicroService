@@ -35,11 +35,6 @@ public class FeeService {
 
 		String s = validateFee(fee);
 		
-//		int q = LocalDate.now().get(IsoFields.QUARTER_OF_YEAR);
-//		int q = LocalDate.now().get(IsoFields.DAY_OF_QUARTER);
-//		System.out.println("yoo " + q);
-
-
 		if (s == null) {
 			feeRepo.save(fee);
 			return "Fees paid successfully..";
@@ -363,3 +358,6 @@ public class FeeService {
 
 
 
+//int q = LocalDate.now().get(IsoFields.QUARTER_OF_YEAR);
+//int q = LocalDate.now().get(IsoFields.DAY_OF_QUARTER);
+//System.out.println("yoo " + q);
